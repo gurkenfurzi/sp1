@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta name="theme-color" content="#fff8f5">
+<title>Studia</title>
+<style>
+html,body{margin:0;min-height:100%;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fff8f5;color:#715d58}
+body{display:grid;place-items:center;min-height:100vh}
+.card{width:min(86vw,360px);padding:28px 24px;text-align:center;background:#fffdfb;border:1px solid #ecd8d2;border-radius:28px;box-shadow:0 16px 50px rgba(115,83,73,.10)}
+.flower{font-size:34px}.title{font-size:24px;font-weight:900;margin:8px 0 6px}.sub{font-size:13px;opacity:.72}.dot{display:inline-block;animation:pulse 1s infinite alternate}@keyframes pulse{to{opacity:.25}}
+</style>
+</head>
+<body>
+<div class="card"><div class="flower">🌷</div><div class="title">Studia</div><div class="sub">wird sicher gestartet<span class="dot">…</span></div></div>
+<script>
+(function(){
+  var target='./app.html?v=161&t='+Date.now();
+  var finished=false;
+  function go(){if(finished)return;finished=true;location.replace(target)}
+  setTimeout(go,900);
+  try{
+    var jobs=[];
+    if('serviceWorker' in navigator){
+      jobs.push(navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister().catch(function(){})}))}).catch(function(){}));
+    }
+    if('caches' in window){
+      jobs.push(caches.keys().then(function(keys){return Promise.all(keys.filter(function(k){return /studia|schoolbloom/i.test(k)}).map(function(k){return caches.delete(k).catch(function(){})}))}).catch(function(){}));
+    }
+    Promise.all(jobs).then(function(){setTimeout(go,60)}).catch(go);
+  }catch(e){go()}
+})();
+</script>
+</body>
+</html>
